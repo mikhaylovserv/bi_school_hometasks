@@ -1,0 +1,11 @@
+#После добавления yml файла:
+
+docker_compose % docker compose up -d
+docker ps
+
+# CONTAINER ID   IMAGE                          COMMAND            CREATED          STATUS          PORTS                                        NAMES
+# 59b923638d08   postgrest/postgrest            "postgrest"        13 seconds ago   Up 12 seconds   0.0.0.0:3000->3000/tcp                       postgrest
+# 617cf97b93fc   clickhouse/clickhouse-server   "/entrypoint.sh"   13 seconds ago   Up 12 seconds   9000/tcp, 0.0.0.0:8123->8123/tcp, 9009/tcp   clickhouse-server
+
+docker-compose restart
+docker-compose down
