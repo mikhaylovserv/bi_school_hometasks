@@ -1,6 +1,6 @@
 #После добавления yml файла:
 
-docker_compose % docker compose up -d
+docker compose up -d
 docker ps
 
 # CONTAINER ID   IMAGE                          COMMAND            CREATED          STATUS          PORTS                                        NAMES
