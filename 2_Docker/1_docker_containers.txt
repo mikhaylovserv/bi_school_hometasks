@@ -1,0 +1,14 @@
+#Развернуть 2 контейнера через docker
+
+#1 clickhouse
+docker run --rm -d --name ch -p 8123:8123 clickhouse/clickhouse-server
+
+2# postgres
+docker run --rm -d --name pg -p 3000:3000 postgrest/postgrest
+
+CONTAINER ID   IMAGE                          COMMAND            CREATED          STATUS          PORTS                                        NAMES
+f1df80266a2e   postgrest/postgrest            "postgrest"        10 seconds ago   Up 9 seconds    0.0.0.0:3000->3000/tcp                       pg
+94701983c067   clickhouse/clickhouse-server   "/entrypoint.sh"   23 minutes ago   Up 23 minutes   9000/tcp, 0.0.0.0:8123->8123/tcp, 9009/tcp   ch
+
+--------------------------------------
+
