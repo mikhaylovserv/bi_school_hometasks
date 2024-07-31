@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  clickhouse-server:
+    image: clickhouse/clickhouse-server
+    container_name: clickhouse-server
+    restart: unless-stopped
+    cpus: "1.5"
+    mem_limit: 256m
+    ports:
+      - "8123:8123"
+    volumes:
+      - /lib/docker/volumes/ch_volume/_data
+
+  postgrest:
+    image: postgrest/postgrest
+    container_name: postgrest
+    restart: unless-stopped
+    cpus: "1.5"
+    mem_limit: 256m
+    environment:
+      POSTGRES_PASSWORD: admin1234
+      POSTGRES_USER: admin
+      POSTGRES_DB: default
+    ports:
+      - "3000:3000"
+    volumes:
+      - /lib/docker/volumes/pg_volume/_data
