@@ -1,7 +1,7 @@
 #Развернуть 2 контейнера через docker (clickhouse + postgres)
 
 docker run --rm -d --name ch -p 8123:8123 clickhouse/clickhouse-server
-docker run --rm -d --name pg -p 3000:3000 postgrest/postgrest
+docker run --rm -d --name pg -p 3000:3000 -e POSTGRES_PASSWORD=admin1234 -e POSTGRES_USER=admin -e POSTGRES_DB=default postgrest/postgrest 
 
 #CONTAINER ID   IMAGE                          COMMAND            CREATED          STATUS          PORTS                                        NAMES
 #f1df80266a2e   postgrest/postgrest            "postgrest"        10 seconds ago   Up 9 seconds    0.0.0.0:3000->3000/tcp                       pg
@@ -14,12 +14,13 @@ docker restart pg && docker restart ch
 
 docker stop pg && docker stop ch
 
-#создаем volumes
-docker volume create ch_volume 
-docker volume create pg_volume
+docker volume create ch_volume && docker volume create pg_volume
+
 
 docker run -d --name clickhouse-server --restart=unless-stopped --cpus="1.5" --memory 256m -p 8123:8123  -v /lib/docker/volumes/ch_volume/_data clickhouse/clickhouse-server
-docker run -d --name postgrest --restart=on-failure --cpus="2" --memory 512m -p 3000:3000  -v /lib/docker/volumes/pg_volume/_data clickhouse/clickhouse-server
+
+docker run -d --name postgrest --restart=on-failure --cpus="2" --memory 512m -p 3000:3000 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin1234 -e POSTGRES_DB=default -v /lib/docker/volumes/pg_volume/_data postgrest/postgrest
+
 
 #CONTAINER ID   IMAGE                          COMMAND            CREATED              STATUS              PORTS                                                  NAMES
 #af4b382cbbd2   clickhouse/clickhouse-server   "/entrypoint.sh"   5 seconds ago        Up 4 seconds        8123/tcp, 9000/tcp, 0.0.0.0:3000->3000/tcp, 9009/tcp   postgrest
