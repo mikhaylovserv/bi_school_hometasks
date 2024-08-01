@@ -19,7 +19,7 @@ docker volume create ch_volume && docker volume create pg_volume
 
 docker run -d --name clickhouse-server --restart=unless-stopped --cpus="1.5" --memory 256m -p 8123:8123  -v /lib/docker/volumes/ch_volume/_data clickhouse/clickhouse-server
 
-docker run -d --name postgrest --restart=on-failure --cpus="2" --memory 512m -p 3000:3000 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin1234 -e POSTGRES_DB=default -v /lib/docker/volumes/pg_volume/_data postgrest/postgrest
+docker run -d --name postgrest --restart=unless-stopped --cpus="2" --memory 512m -p 3000:3000 -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin1234 -e POSTGRES_DB=default -v /lib/docker/volumes/pg_volume/_data postgrest/postgrest
 
 
 #CONTAINER ID   IMAGE                          COMMAND            CREATED              STATUS              PORTS                                                  NAMES
