@@ -1,0 +1,5 @@
+docker compose up -d
+
+#[+] Running 2/2
+#✔ Network 4_clikchouse_default  Created                                                                             0.0s 
+#✔ Container clickhouse-server   Started   
