@@ -16,7 +16,3 @@ create materialized view stage.v_stgShkOnP_to_currShkOnP to current.ShkOnPlaceSt
 select shk_id, state_id, wh_id, dt
 from stage.ShkOnPlaceState_log;
 
--- выбираем данные, вставленные в схему stage и заполнившие current через мат вью
-select *, dt_load
-from current.ShkOnPlaceState_log;
---файл mat_view_ShkOnPlaceState_log.csv
