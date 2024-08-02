@@ -1,4 +1,4 @@
-- Создаем администратора
+-- Создаем администратора
 create user admin_user identified with sha256_password by 'admin1234';
 
 --Выдаем права
