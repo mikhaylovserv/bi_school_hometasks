@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: zookeeper:latest
+    container_name: zookeeper
+    environment:
+      JVMFLAGS: "-Djava.security.auth.login.config=/etc/zookeeper/zookeeper_jaas.conf"
+    volumes:
+      - ./zookeeper_jaas.conf:/etc/zookeeper/zookeeper_jaas.conf
+      - zookeeper-data-sasl:/data:rw
+      - zookeeper-logs-sasl:/datalog:rw
+    ports:
+     - 1560:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+      - 9093:9093
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://localhost:9092,SASL_PLAINTEXT://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,SASL_PLAINTEXT://127.0.0.1:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,SASL_PLAINTEXT:SASL_PLAINTEXT
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_jaas.conf"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka_server_jaas.conf:/etc/kafka/kafka_jaas.conf
+      - ./client.properties:/etc/kafka/client.properties
+      - kafka-data-sasl:/var/lib/kafka/data:rw
+      - kafka-logs-sasl:/var/lib/kafka-logs:rw
+        
+volumes:
+  kafka-data-sasl:
+  kafka-logs-sasl:
+  zookeeper-data-sasl:
+  zookeeper-logs-sasl:
