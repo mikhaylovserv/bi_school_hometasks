@@ -61,7 +61,7 @@ def main():
 
 
 
-task_tarificator_by_prod_type_parts = PythonOperator(
+task_report_hometask_airflow = PythonOperator(
     task_id='report_hometask_airflow', python_callable=main, dag=dag)
 
 
