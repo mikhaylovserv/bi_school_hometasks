@@ -1,0 +1,50 @@
+Apache Spark Streaming
+
+https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html
+
+
+Варианты использования
+
+https://pythonru.com/biblioteki/pyspark-dlja-nachinajushhih?ysclid=ly5w4batr6127852970
+
+
+git для развертывания
+https://github.com/iskinn/LevelUP.Spark/
+
+
+Полезное:
+
+web панель для проверки работы среды spark.
+http://macbook-pro-media.local:8080/
+Изменить имя своей машины на свою версию в файле .env
+
+
+Заходим внутрь контейнера spark-master.
+
+docker exec -u root -it spark-master /bin/bash
+
+Устанавливаем нужные пакеты python в контейнере.
+
+pip install clickhouse_driver clickhouse_cityhash lz4 pandas
+
+Запускаем задание.
+
+spark-submit --master spark://spark-master:7077  \
+    --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
+    --executor-cores 1 \
+    --conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" \
+    /opt/spark/Streams/shkCreate_edu_100/shkCreate_sync_simple.py
+
+В вашей таблице в течении 1 минуты должны появляться данные пачками.
+
+ДЗ
+
+Считать данные из вашей Кафки через спарк. Если нужно, залейте немного данных с пегас.
+Добавить какую-нибудь колонку. Записать в ваш клик в докере.
+*Можно через csv импортировать в ваш клик справочник объемов nm_id с пегаса, чтобы оттуда брать объем номенклатуры.
+Выложить папку с docker-compose файлами для развертывания контейнеров. Должно быть 2 файла: docker-compose.yml, .env.
+Запушить в свой гит получившийся таск спарк. Не пушить файл с паролями.
+Выложить в гит скрины с содержимым конечной папки в вашем клике. 
+Выложить код структуру конечной таблицы в вашем клике.
+Выложить скрин веб интерфейса вашего спарк.
+Скрин работы вашего приложения из консоли контейнера.
