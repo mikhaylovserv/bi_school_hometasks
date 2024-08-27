@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  zookeeper:
+    image: zookeeper:latest
+    container_name: zookeeper
+    environment:
+      JVMFLAGS: "-Djava.security.auth.login.config=/etc/zookeeper/zookeeper_jaas.conf"
+    volumes:
+      - ./zookeeper_jaas.conf:/etc/zookeeper/zookeeper_jaas.conf
+      - zookeeper-data-sasl:/data:rw
+      - zookeeper-logs-sasl:/datalog:rw
+    ports:
+     - 1560:2181
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    user: root
+    depends_on:
+      - zookeeper
+    ports:
+      - 192.168.1.136:29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://192.168.1.136:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - ./kafka_server_jaas.conf:/etc/kafka/kafka_jaas.conf
+      - ./client.properties:/etc/kafka/client.properties
+      - kafka-data-sasl:/var/lib/kafka/data:rw
+      - kafka-logs-sasl:/var/lib/kafka-logs:rw
+
+volumes:
+  kafka-data-sasl:
+  kafka-logs-sasl:
+  zookeeper-data-sasl:
+  zookeeper-logs-sasl:
+      
