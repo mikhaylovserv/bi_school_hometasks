@@ -1,0 +1,12 @@
+
+docker exec -u root -it spark-master /bin/bash
+
+pip install clickhouse_driver clickhouse_cityhash lz4 pandas
+
+spark-submit --master spark://spark-master:7077 \
+--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0 \
+--repositories https://repo.maven.apache.org/maven2 \
+--executor-cores 1 \
+--conf spark.driver.extraJavaOptions="-Divy.cache.dir=/tmp -Divy.home=/tmp" \
+--conf spark.ssl.disable=true \
+/opt/spark/Streams/shkOnPlace_state_edu_100/shkOnPlace_sync_app_2.py
