@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  clickhouse-server:
+    image: clickhouse/clickhouse-server
+    container_name: clickhouse-server
+    restart: unless-stopped
+    cpus: "1.5"
+    mem_limit: 1000m
+    ports:
+      - '8123:8123'
+      - '192.168.1.136:9000:9000'
+    volumes:
+      - /lib/docker/volumes/ch_volume/_data
