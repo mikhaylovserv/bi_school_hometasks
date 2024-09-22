@@ -18,7 +18,7 @@ with open('/opt/spark/Streams/credentials.json') as json_file:
     сonnect_settings = json.load(json_file)
 
 ch_db_name = "stage"
-ch_dst_table = "shkOnPlaceSate_log"
+ch_dst_table = "ShkOnPlaceState_log"
 
 client = Client(сonnect_settings['ch_local'][0]['host'],
                 user=сonnect_settings['ch_local'][0]['user'],
@@ -34,7 +34,7 @@ spark_ui_port = "8081"
 
 kafka_host = сonnect_settings['kafka'][0]['host']
 kafka_port = сonnect_settings['kafka'][0]['port']
-kafka_topic = "spark_hometask_topic"
+kafka_topic = "final_project_topic"
 kafka_batch_size = 50
 processing_time = "5 second"
 
